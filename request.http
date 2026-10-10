@@ -1,0 +1,49 @@
+###1 Create car
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "brand": "Skoda",
+  "model": "Octavia",
+  "year": "2025",
+  "dailyPrice": "25000",
+  "available": true
+}
+
+###2 Get all cars
+GET http://localhost:8080/api/cars
+
+###3 Get car by ID
+GET http://localhost:8080/api/cars/1
+
+
+###4 UPDATE car
+PUT http://localhost:8080/api/cars/1
+Content-Type: application/json
+
+{
+  "brand": "Audi",
+  "model": "A6",
+  "year": 2025,
+  "dailyPrice": 30000,
+  "available": false
+}
+
+###5 Delete car
+DELETE http://localhost:8080/api/cars/1
+
+###6 Validation error
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+"brand": "",
+"model": "Camry",
+"year": 2024,
+"dailyPrice": -100,
+"available": true
+}
+
+###7 Not found error
+GET http://localhost:8080/api/cars/9999
+
