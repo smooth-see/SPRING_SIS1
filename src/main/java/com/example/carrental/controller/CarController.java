@@ -6,6 +6,8 @@ import com.example.carrental.service.CarService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import org.springframework.data.domain.Page;
 import java.util.List;
 
 @RestController
@@ -24,8 +26,11 @@ public class CarController {
     }
 
     @GetMapping
-    public List<CarResponse> getAll(){
-        return carService.getAll();
+    public Page<CarResponse> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size
+    ) {
+        return carService.getAll(page, size);
     }
 
     @GetMapping("/{id}")

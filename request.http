@@ -5,8 +5,8 @@ Content-Type: application/json
 {
   "brand": "Skoda",
   "model": "Octavia",
-  "year": "2025",
-  "dailyPrice": "25000",
+  "year": 2025,
+  "dailyPrice": 25000,
   "available": true
 }
 
@@ -47,3 +47,100 @@ Content-Type: application/json
 ###7 Not found error
 GET http://localhost:8080/api/cars/9999
 
+
+
+
+
+
+### create a car in PostgreSQL
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "brand": "Mercedes",
+  "model": "E63s",
+  "year": 2022,
+  "dailyPrice": 15000,
+  "available": true
+}
+
+### first page
+GET http://localhost:8080/api/cars?page=0&size=1
+
+### second page
+GET http://localhost:8080/api/cars?page=1&size=1
+
+### persistence
+GET http://localhost:8080/api/cars?page=0&size=5
+
+### update car
+PUT http://localhost:8080/api/cars/1
+Content-Type: application/json
+
+{
+  "brand": "BMW",
+  "model": "M5",
+  "year": 2023,
+  "dailyPrice": 30000,
+  "available": true
+}
+
+### delete car
+DELETE http://localhost:8080/api/cars/1
+
+### car not found
+GET http://localhost:8080/api/cars/999
+
+### validation test
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "brand": "",
+  "model": "Camry",
+  "year": 2025,
+  "dailyPrice": 20000,
+  "available": true
+}
+
+### test
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "brand": "Volkswagen",
+  "model": "Golf",
+  "year": 2022,
+  "dailyPrice": 10000,
+  "available": true
+}
+
+### test
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+"brand": "Porsche",
+"model": "Cayene",
+"year": 2024,
+"dailyPrice": 30000,
+"available": true
+}
+
+### test
+POST http://localhost:8080/api/cars
+Content-Type: application/json
+
+{
+  "brand": "Volvo",
+  "model": "XC90",
+  "year": 2024,
+  "dailyPrice": 20000,
+  "available": true
+}
+
+### first page 2
+GET http://localhost:8080/api/cars?page=0&size=2
+
+### second page 2
+GET http://localhost:8080/api/cars?page=1&size=2

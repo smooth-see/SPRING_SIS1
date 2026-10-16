@@ -5,6 +5,16 @@ import com.example.carrental.dto.CarResponse;
 import com.example.carrental.model.Car;
 import org.springframework.stereotype.Service;
 import com.example.carrental.exception.CarNotFoundException;
+import com.example.carrental.repository.CarRepository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.Sort;
+
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,14 +24,16 @@ import java.util.Map;
 @Service
 public class CarService {
 
-    private final Map<Long, Car> cars = new HashMap<>();
-    private Long nextId = 1L;
+    private final CarRepository carRepository;
+
+    public CarService(CarRepository carRepository){
+        this.carRepository = carRepository;
+    }
 
     public CarResponse create(CarRequest request) {
-        Long id = nextId++;
 
         Car car = new Car(
-                id,
+                null,
                 request.getBrand(),
                 request.getModel(),
                 request.getYear(),
@@ -29,37 +41,27 @@ public class CarService {
                 request.getAvailable()
         );
 
-        cars.put(id, car);
+        Car savedCar = carRepository.save(car);
 
-        return toResponse(car);
+        return toResponse(savedCar);
     }
 
-    public List<CarResponse> getAll() {
-        List<CarResponse> responses = new ArrayList<>();
+    public Page<CarResponse> getAll(int page, int size){
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
 
-        for (Car car : cars.values()) {
-            responses.add(toResponse(car));
-        }
+        Page<Car> carsPage = carRepository.findAll(pageable);
 
-        return responses;
+        return carsPage.map(this::toResponse);
     }
 
     public CarResponse getById(Long id) {
-        Car car = cars.get(id);
-
-        if (car == null) {
-            throw new CarNotFoundException(id);
-        }
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
 
         return toResponse(car);
     }
 
     public CarResponse update(Long id, CarRequest request) {
-        Car car = cars.get(id);
-
-        if (car == null) {
-            throw new RuntimeException("Car not found");
-        }
+        Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
 
         car.setBrand(request.getBrand());
         car.setModel(request.getModel());
@@ -67,15 +69,17 @@ public class CarService {
         car.setDailyPrice(request.getDailyPrice());
         car.setAvailable(request.getAvailable());
 
-        return toResponse(car);
+        Car updateCar = carRepository.save(car);
+
+        return toResponse(updateCar);
     }
 
     public void delete(Long id) {
-        if (!cars.containsKey(id)) {
+        if (!carRepository.existsById(id)) {
             throw new CarNotFoundException(id);
         }
 
-        cars.remove(id);
+        carRepository.deleteById(id);
     }
 
     private CarResponse toResponse(Car car) {
