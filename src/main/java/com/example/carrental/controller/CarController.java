@@ -25,6 +25,7 @@ public class CarController {
         return carService.create(request);
     }
 
+
     @GetMapping
     public Page<CarResponse> getAll(
             @RequestParam(defaultValue = "0") int page,

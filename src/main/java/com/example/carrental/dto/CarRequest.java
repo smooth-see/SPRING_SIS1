@@ -25,40 +25,27 @@ public class CarRequest {
     public String getBrand(){
         return brand;
     }
-
     public void setBrand(String brand){
         this.brand = brand;
     }
-
     public String getModel(){
         return model;
     }
-
     public void setModel(String model){
         this.model = model;
     }
-
     public Integer getYear(){
         return year;
     }
-
     public void setYear(Integer year){
         this.year = year;
     }
-
     public Double getDailyPrice(){
         return dailyPrice;
     }
-
     public void setDailyPrice(double dailyPrice) {
         this.dailyPrice = dailyPrice;
     }
-
-    public Boolean getAvailable(){
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
+    public Boolean getAvailable(){return available;}
+    public void setAvailable(Boolean available) { this.available = available;}
 }

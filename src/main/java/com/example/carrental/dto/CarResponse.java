@@ -20,24 +20,15 @@ public class CarResponse {
     public Long getId() {
         return id;
     }
-
     public String getBrand() {
         return brand;
     }
-
     public String getModel(){
         return model;
     }
-
     public Integer getYear() {
         return year;
     }
-
-    public Double getDailyPrice() {
-        return dailyPrice;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
+    public Double getDailyPrice() {return dailyPrice;}
+    public Boolean getAvailable() {return available;}
 }

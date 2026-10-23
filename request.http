@@ -51,6 +51,8 @@ GET http://localhost:8080/api/cars/9999
 
 
 
+### check
+GET http://localhost:8080/api/cars
 
 ### create a car in PostgreSQL
 POST http://localhost:8080/api/cars
@@ -74,7 +76,7 @@ GET http://localhost:8080/api/cars?page=1&size=1
 GET http://localhost:8080/api/cars?page=0&size=5
 
 ### update car
-PUT http://localhost:8080/api/cars/1
+PUT http://localhost:8080/api/cars/3
 Content-Type: application/json
 
 {
@@ -86,7 +88,7 @@ Content-Type: application/json
 }
 
 ### delete car
-DELETE http://localhost:8080/api/cars/1
+DELETE http://localhost:8080/api/cars/2
 
 ### car not found
 GET http://localhost:8080/api/cars/999
