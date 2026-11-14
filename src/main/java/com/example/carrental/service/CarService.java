@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 @Service
 public class CarService {
@@ -26,6 +28,7 @@ public class CarService {
     }
 
 
+    @CacheEvict(cacheNames = "carPages", allEntries = true)
     public CarResponse create(CarRequest request) {
         CarDomain domain = carMapper.toDomain(request);
         Car car = carMapper.toEntity(domain);
@@ -36,6 +39,7 @@ public class CarService {
     }
 
 
+    @Cacheable("carPages")
     public Page<CarResponse> getAll(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<Car> carsPage = carRepository.findAll(pageable);
@@ -51,6 +55,7 @@ public class CarService {
     }
 
 
+    @CacheEvict(cacheNames = "carPages", allEntries = true)
     public CarResponse update(Long id, CarRequest request) {
         Car car = carRepository.findById(id).orElseThrow(() -> new CarNotFoundException(id));
         CarDomain domain = carMapper.toDomain(car);
@@ -68,7 +73,7 @@ public class CarService {
         return carMapper.toResponce(carMapper.toDomain(savedCar));
     }
 
-
+    @CacheEvict(cacheNames = "carPages", allEntries = true)
     public void delete(Long id) {
         if (!carRepository.existsById(id)) {
             throw new CarNotFoundException(id);
